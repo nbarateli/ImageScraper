@@ -54,7 +54,8 @@ public class JSONScraperDatabase implements ScraperDatabase {
         Map<String, List<String>> result = new HashMap<>();
         o.keySet().forEach(k -> {
             List<String> links = new ArrayList<>();
-            o.getJsonArray(k).forEach(el -> links.add(el.toString()));
+            JsonArray array = o.getJsonArray(k);
+            for (int i = 0; i < array.size(); i++) links.add(array.getString(i));
             result.put(k, links);
         });
         return result;

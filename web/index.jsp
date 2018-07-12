@@ -1,6 +1,7 @@
 <%@ page import="control.JSONScraperDatabase" %>
 <%@ page import="control.MySQLScraperDatabase" %>
 <%@ page import="control.ScraperDatabase" %>
+<%@ page import="misc.Utils" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %><%--
@@ -15,6 +16,7 @@
   ScraperDatabase database;
   try {
     database = MySQLScraperDatabase.getInstance();
+//    throw new SQLException("");
   } catch (SQLException e) {
     database = JSONScraperDatabase.getInstance();
   }
@@ -34,15 +36,19 @@
   <div>
     <p id="message">&nbsp;</p>
   </div>
-  <div id="tableContainer" class="tableContainer">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="hyperlinks" class="scrollTable">
-      <thead class="fixedHeader">
-      <tr>
-        <th width="400px">link</th>
+  <table id="table-header">
+    <thead class="fixedHeader">
+    <tr>
+      <th class="link-row">link</th>
 
-        <th width="400px">source</th>
-      </tr>
-      </thead>
+      <th class="src-row">source</th>
+    </tr>
+    </thead>
+  </table>
+  <div id="tableContainer" class="tableContainer">
+
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="hyperlinks" class="scrollTable">
+
       <tbody class="scrollContent" id="links">
       <tr>
           <%
@@ -51,10 +57,12 @@
             for(String el:links.get(k)){
             %>
       <tr>
-        <td width="400px"><a href="<%=el%>"><%=el%>
-        </a>
+        <td>
+          <a href="<%=el%>"><span class="text-overflow"><%=Utils.escapeHTML(el)%></span> </a>
+
         </td>
-        <td width="50%"><a href="<%=k%>"><%=k%>
+        <td><a href="<%=k%>"><span class="text-overflow"><%=Utils.escapeHTML(k)%></span>
+        </a>
       </tr>
       <%
           }

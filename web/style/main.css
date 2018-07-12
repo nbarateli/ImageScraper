@@ -28,7 +28,6 @@ body {
   /*overflow-y: scroll;*/
 }
 
-
 #hyperlinks {
   table-layout: fixed;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -40,6 +39,12 @@ body {
 #hyperlinks td, #hyperlinks th {
   border: 1px solid #ddd;
   padding: 8px;
+  /*width: 50%;*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  /*width: 100px;*/
+
 }
 
 #hyperlinks tr:nth-child(even) {
@@ -64,19 +69,21 @@ body {
 div.tableContainer {
   clear: both;
   height: 90%;
-  overflow: auto;
+  overflow-y: auto;
   width: 100%
 }
 
 /* Reset overflow value to hidden for all non-IE browsers. */
 html > body div.tableContainer {
-  overflow: hidden;
+  /*overflow: hidden;*/
   width: 100%
 }
 
 /* define width of table. IE browsers only                 */
 div.tableContainer table {
-  float: left;
+  /*float: left;*/
+  width: 100%;
+  white-space: nowrap;
 }
 
 /* set table header to a fixed position. WinIE 6.x only                                       */
@@ -85,24 +92,24 @@ div.tableContainer table {
 /* Ex: parent element DIV with a class of tableContainer has an overflow property set to auto */
 
 thead.fixedHeader tr {
-  position: relative;
+  /*position: absolute;*/
 }
 
 html > body tbody.scrollContent {
-  display: block;
+  /*display: block;*/
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
   width: 100%
 }
 
-html > body thead.fixedHeader {
-  display: table;
-  overflow: auto;
+html > body thead.fixedHeader, #table-header.fixedHeader {
+  /*display: table;*/
+  overflow: hidden;
   width: 100%
 }
 
 #tableContainer table {
-  height: 97%;
+  height: 90%;
 }
 
 #url-form {
@@ -136,4 +143,29 @@ button:hover {
 
 #message {
   text-align: center;
+}
+
+.link-row {
+  width: 49%;
+}
+
+td {
+  width: 50%;
+}
+
+a {
+
+  box-sizing: border-box;
+}
+
+.text-overflow {
+  /*display: block;*/
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+#table-header {
+  width: 100%;
 }

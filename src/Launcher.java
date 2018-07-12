@@ -1,12 +1,16 @@
-import control.JSONScraperDatabase;
+import control.MySQLScraperDatabase;
 import control.ScraperDatabase;
+import model.PageScraper;
 
 import java.util.Scanner;
 
 public class Launcher {
 
     public static void main(String[] args) throws Exception {
-        ScraperDatabase instance = JSONScraperDatabase.getInstance();
+
+        ScraperDatabase instance = MySQLScraperDatabase.getInstance();
+        PageScraper scraper = new PageScraper(instance);
+        scraper.scrapePage("https://google.com");
         Scanner in = new Scanner(System.in);
         while (true) {
             System.out.println("read or write? (r/w)");
