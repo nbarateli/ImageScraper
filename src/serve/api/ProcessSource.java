@@ -36,7 +36,7 @@ public class ProcessSource extends HttpServlet {
     }
 
     /**
-     * Adds a protocol (HTTPS) to the given url string (if none is present)
+     * Adds a protocol (HTTP) to the given url string (if none is present)
      *
      * @param src a url string to be checked
      * @return processed url string
@@ -46,7 +46,7 @@ public class ProcessSource extends HttpServlet {
             new URL(src).getProtocol();
             return src;
         } catch (Exception e) {
-            return "https://" + src;
+            return "http://" + src;
         }
     }
 
