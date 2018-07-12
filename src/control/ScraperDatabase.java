@@ -9,7 +9,7 @@ public interface ScraperDatabase {
      *
      * @return whether the operation was successful
      */
-    boolean addImage(String url);
+    boolean addImage(String url, String src);
 
     /**
      * Returns the list of all previously added images

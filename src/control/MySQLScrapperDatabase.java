@@ -32,7 +32,7 @@ public class MySQLScrapperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public boolean addImage(String url) {
+    public boolean addImage(String url, String src) {
         return false;
     }
 
@@ -111,7 +111,7 @@ public class MySQLScrapperDatabase implements ScraperDatabase {
      *
      * @param statement PreparedStatement which we need to add parameters to
      * @param values    parameters needed to be added to PreparedStatement
-     * @throws SQLException
+     * @throws SQLException if database access error occurs.
      */
     private void addParameters(PreparedStatement statement, Object[] values) throws SQLException {
         for (int i = 0; i < values.length; i++) {

@@ -11,7 +11,7 @@ public class JSONScrapperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public boolean addImage(String url) {
+    public boolean addImage(String url, String src) {
         return false;
     }
 
