@@ -23,7 +23,7 @@ public class Launcher {
                         System.out.print("link: ");
                         String href = in.next();
                         try {
-                            instance.addLink(href, href);
+                            instance.addLink(href, src);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
