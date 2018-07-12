@@ -10,6 +10,7 @@ CREATE TABLE sources
 );
 CREATE UNIQUE INDEX sources_src_link_uindex
   ON sources (src_link);
+
 CREATE TABLE hyperlinks
 (
   link_id INT PRIMARY KEY,
