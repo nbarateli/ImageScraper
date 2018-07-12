@@ -17,7 +17,9 @@ public final class MySQLInfo {
         JsonObject info = reader.readObject();
         result.put("server", info.getString("server"));
         result.put("username", info.getString("username"));
-        result.put("password", info.getString("password"));
+        if (info.isNull("password"))
+            result.put("password", "");
+        else result.put("password", info.getString("password"));
         result.put("database", info.getString("database"));
         return result;
     }

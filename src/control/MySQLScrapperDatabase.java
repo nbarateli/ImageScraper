@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,14 +17,23 @@ import java.util.Map;
  * Implements the ScrapperDatabase interface using the MySQL database.
  */
 public class MySQLScrapperDatabase implements ScraperDatabase {
+    private static MySQLScrapperDatabase instance;
+
+    /**
+     * Returns the instance of database
+     */
+    public static MySQLScrapperDatabase getInstance() throws FileNotFoundException, SQLException {
+        return instance == null ? instance = new MySQLScrapperDatabase() : instance;
+    }
+
     private final PooledConnection pool;
     private final Map<String, String> dbInfo;
 
     private MySQLScrapperDatabase() throws SQLException, FileNotFoundException {
         dbInfo = MySQLInfo.readDBInfo();
         MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
-        dataSource.setURL(dbInfo.get("database"));
-        dataSource.setUser("username");
+        dataSource.setURL(dbInfo.get("server"));
+        dataSource.setUser(dbInfo.get("username"));
         if (dbInfo.get("password").length() > 0) {
             dataSource.setPassword(dbInfo.get("password"));
             pool = dataSource.getPooledConnection(dbInfo.get("username"), dbInfo.get("password"));
@@ -33,12 +44,62 @@ public class MySQLScrapperDatabase implements ScraperDatabase {
 
     @Override
     public boolean addLink(String url, String src) {
-        return false;
+        try {
+            addSource(src);
+            int id = getSourceId(src);
+            executeUpdate("INSERT INTO hyperlinks (href, src) VALUE (?, ?)", url, id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     @Override
     public Map<String, List<String>> getAllLinks() {
-        return null;
+        Map<Integer, String> sources = getSources();
+        Map<String, List<String>> result = new HashMap<>();
+        try (ResultSet resultSet = executeQuery("SELECT * FROM hyperlinks")) {
+            while (resultSet.next()) {
+                addToList(result, sources.get(resultSet.getInt("src")), resultSet.getString("href"));
+            }
+        } catch (Exception ignored) {
+
+        }
+        return result;
+    }
+
+    /**
+     * @param src the hyperlink of the given source
+     * @return the id in mysql database
+     */
+    private int getSourceId(String src) throws SQLException {
+        ResultSet set = executeQuery("SELECT * FROM sources WHERE src_link = ?", src);
+        set.next();
+        int result = set.getInt("src_id");
+        set.close();
+        return result;
+    }
+
+    private void addToList(Map<String, List<String>> result, String src, String href) {
+        List<String> links = result.computeIfAbsent(src, k -> new ArrayList<>());
+        links.add(href);
+    }
+
+
+    /**
+     * Returns the id:source_link map of all the sources
+     */
+    private Map<Integer, String> getSources() {
+        try (ResultSet resultSet = executeQuery("SELECT  * FROM sources")) {
+            Map<Integer, String> sources = new HashMap<>();
+            while (resultSet.next()) {
+                sources.put(resultSet.getInt("src_id"), resultSet.getString("src_link"));
+            }
+            return sources;
+        } catch (Exception e) {
+            return new HashMap<>();
+        }
     }
 
     /**
@@ -74,6 +135,16 @@ public class MySQLScrapperDatabase implements ScraperDatabase {
         return (int) execute(sql, values, true);
     }
 
+    /**
+     * Adds the given source the list of sources in database
+     */
+    private void addSource(String src) {
+        try {
+            executeUpdate("INSERT INTO sources (src_link) VALUE (?)", src);
+        } catch (Exception ignored) {
+        }
+
+    }
 
     /**
      * Connects to database, executes passed and returns either a <code>ResultSet</code> or an int,
