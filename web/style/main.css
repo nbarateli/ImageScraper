@@ -1,0 +1,111 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 5px 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 10% 85%;
+  grid-row-gap: 4%;
+  grid-template-columns: 20% 60% 20%;
+  grid-template-areas: 'header header header' '. content .';
+  font-family: "Segoe UI", serif;
+}
+
+#header {
+  grid-area: header;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 400%;
+  font-weight: bolder;
+  background: #E8EAF6;
+}
+
+#content {
+  grid-area: content;
+  /*overflow-y: scroll;*/
+}
+
+#links {
+  /*overflow-y: scroll;*/
+  height: 100%;
+
+}
+
+#hyperlinks {
+  table-layout: fixed;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  height: 90%;
+}
+
+#hyperlinks td, #hyperlinks th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#hyperlinks tr:nth-child(even) {
+  background-color: #BBDEFB;
+}
+
+#hyperlinks tr:hover {
+  background-color: #ddd;
+}
+
+#hyperlinks th, #table-header th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #2196F3;
+  color: white;
+}
+
+/* end basic styling                                 */
+
+/* define height and width of scrollable area. Add 16px to width for scrollbar          */
+div.tableContainer {
+  clear: both;
+  height: 90%;
+  overflow: auto;
+  width: 100%
+}
+
+/* Reset overflow value to hidden for all non-IE browsers. */
+html > body div.tableContainer {
+  overflow: hidden;
+  width: 100%
+}
+
+/* define width of table. IE browsers only                 */
+div.tableContainer table {
+  float: left;
+}
+
+/* set table header to a fixed position. WinIE 6.x only                                       */
+/* In WinIE 6.x, any element with a position property set to relative and is a child of       */
+/* an element that has an overflow property set, the relative value translates into fixed.    */
+/* Ex: parent element DIV with a class of tableContainer has an overflow property set to auto */
+
+thead.fixedHeader tr {
+  position: relative;
+}
+
+html > body tbody.scrollContent {
+  display: block;
+  height: 100%;
+  overflow: auto;
+  width: 100%
+}
+
+html > body thead.fixedHeader {
+  display: table;
+  overflow: auto;
+  width: 100%
+}
+
+#tableContainer table {
+  height: 97%;
+}
