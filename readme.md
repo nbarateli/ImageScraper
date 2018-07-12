@@ -13,9 +13,9 @@ used libraries:
 
 You should have a databaseinfo.json file in your working directory, formatted like this:
 
-{
-  <span style="color:red">"server"</span>: "",
-  <span>"username"</span>: "",
-  <span>"password"</span>: null,
-  <span>"database"</span>: ""
+{<br>
+    "server": "",<br>
+    "username": "",<br>
+    "password": null,<br>
+    "database": ""<br>
 }
