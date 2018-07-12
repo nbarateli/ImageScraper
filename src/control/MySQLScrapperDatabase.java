@@ -12,12 +12,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Implements the ScrapperDatabase interface using the MySQL database.
  */
 public class MySQLScrapperDatabase implements ScraperDatabase {
     private static MySQLScrapperDatabase instance;
+    private Lock databaseLock;
 
     /**
      * Returns the instance of database
@@ -30,6 +33,7 @@ public class MySQLScrapperDatabase implements ScraperDatabase {
     private final Map<String, String> dbInfo;
 
     private MySQLScrapperDatabase() throws SQLException, FileNotFoundException {
+        databaseLock = new ReentrantLock();
         dbInfo = MySQLInfo.readDBInfo();
         MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
         dataSource.setURL(dbInfo.get("server"));
@@ -73,11 +77,17 @@ public class MySQLScrapperDatabase implements ScraperDatabase {
      * @param src the hyperlink of the given source
      * @return the id in mysql database
      */
-    private int getSourceId(String src) throws SQLException {
-        ResultSet set = executeQuery("SELECT * FROM sources WHERE src_link = ?", src);
-        set.next();
-        int result = set.getInt("src_id");
-        set.close();
+    private int getSourceId(String src) {
+        databaseLock.lock();
+        int result = 0;
+        try (ResultSet set = executeQuery("SELECT * FROM sources WHERE src_link = ?", src)) {
+            set.next();
+            result = set.getInt("src_id");
+        } catch (SQLException e) {
+
+        } finally {
+            databaseLock.unlock();
+        }
         return result;
     }
 
@@ -140,8 +150,12 @@ public class MySQLScrapperDatabase implements ScraperDatabase {
      */
     private void addSource(String src) {
         try {
+            databaseLock.lock();
             executeUpdate("INSERT INTO sources (src_link) VALUE (?)", src);
+
         } catch (Exception ignored) {
+        } finally {
+            databaseLock.unlock();
         }
 
     }
