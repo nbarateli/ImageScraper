@@ -24,7 +24,7 @@ function displayData(data) {
 async function submit(e) {
     e.preventDefault();
     displayMessage("loading...")
-    let response = await fetch("../api/process?url=" + e.target[0].value);
+    let response = await fetch("/api/process?url=" + e.target[0].value);
     let data = await response.json();
     displayData(data)
 }

@@ -42,8 +42,8 @@
     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="hyperlinks" class="scrollTable">
 
       <tbody class="scrollContent" id="links">
-      <tr>
-          <%
+
+      <%
           Map<String, List<String>> links = database.getAllLinks();
           for (String k:links.keySet()){
             for(String el:links.get(k)){
@@ -60,7 +60,7 @@
           }
         }
       %>
-      </tr>
+
       </tbody>
     </table>
   </div>

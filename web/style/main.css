@@ -68,7 +68,7 @@ body {
 /* define height and width of scrollable area. Add 16px to width for scrollbar          */
 div.tableContainer {
   clear: both;
-  height: 90%;
+  height: 68%;
   overflow-y: auto;
   width: 100%
 }
