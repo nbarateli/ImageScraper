@@ -1,7 +1,7 @@
  
 A simple web page scraper.
 <br>
-runs on <a href="https://tomcat.apache.org/download-70.cgi">Tomcat 7</a> also comes with a built-in Java GUI.
+runs on <a href="https://tomcat.apache.org/download-70.cgi">Tomcat 7</a>.
 
 Database used: MySQL.
                      
