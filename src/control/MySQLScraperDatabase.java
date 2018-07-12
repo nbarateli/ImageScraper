@@ -18,21 +18,21 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Implements the ScrapperDatabase interface using the MySQL database.
  */
-public class MySQLScrapperDatabase implements ScraperDatabase {
-    private static MySQLScrapperDatabase instance;
+public class MySQLScraperDatabase implements ScraperDatabase {
+    private static MySQLScraperDatabase instance;
     private Lock databaseLock;
 
     /**
      * Returns the instance of database
      */
-    public static MySQLScrapperDatabase getInstance() throws FileNotFoundException, SQLException {
-        return instance == null ? instance = new MySQLScrapperDatabase() : instance;
+    public static MySQLScraperDatabase getInstance() throws FileNotFoundException, SQLException {
+        return instance == null ? instance = new MySQLScraperDatabase() : instance;
     }
 
     private final PooledConnection pool;
     private final Map<String, String> dbInfo;
 
-    private MySQLScrapperDatabase() throws SQLException, FileNotFoundException {
+    private MySQLScraperDatabase() throws SQLException, FileNotFoundException {
         databaseLock = new ReentrantLock();
         dbInfo = MySQLInfo.readDBInfo();
         MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
