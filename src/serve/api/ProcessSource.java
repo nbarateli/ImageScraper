@@ -39,6 +39,12 @@ public class ProcessSource extends HttpServlet {
         writer.close();
     }
 
+    /**
+     * Adds a protocol (HTTPS) to the given url string (if none is present)
+     *
+     * @param src a url string to be checked
+     * @return processed url string
+     */
     private String addProtocol(String src) {
         try {
             new URL(src).getProtocol();
