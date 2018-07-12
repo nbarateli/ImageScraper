@@ -5,7 +5,7 @@ USE pagescraper;
 
 CREATE TABLE sources
 (
-  src_id   INT PRIMARY KEY,
+  src_id   INT PRIMARY KEY AUTO_INCREMENT,
   src_link VARCHAR(255) NOT NULL
 );
 CREATE UNIQUE INDEX sources_src_link_uindex
@@ -13,7 +13,7 @@ CREATE UNIQUE INDEX sources_src_link_uindex
 
 CREATE TABLE hyperlinks
 (
-  link_id INT PRIMARY KEY,
+  link_id INT PRIMARY KEY AUTO_INCREMENT,
   href    VARCHAR(255),
   src     INT,
   CONSTRAINT hyperlinks_sources_src_id_fk FOREIGN KEY (src) REFERENCES sources (src_id)
