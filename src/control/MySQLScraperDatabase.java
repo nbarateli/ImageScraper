@@ -8,10 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -47,16 +44,28 @@ public class MySQLScraperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public boolean addLink(String url, String src) {
+    public void addLink(String url, String src) {
+
+        addLinks(src, Collections.singletonList(url));
+    }
+
+    @Override
+    public void addLinks(String src, List<String> urls) {
         try {
             addSource(src);
             int id = getSourceId(src);
-            executeUpdate("INSERT INTO hyperlinks (href, src) VALUE (?, ?)", url, id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+            StringBuilder builder = new StringBuilder("INSERT INTO hyperlinks (href, src) VALUES\n");
+            urls.forEach(url -> builder.append("(?, ?),"));
+            builder.setCharAt(builder.length() - 1, ' ');
+            Object[] params = new Object[urls.size() * 2];
+            for (int i = 0; i < params.length; i += 2) {
+                params[i] = urls.get(i / 2);
+                params[i + 1] = id;
+            }
+            executeUpdate(builder.toString(), params);
+        } catch (Exception ignored) {
 
+        }
     }
 
     @Override

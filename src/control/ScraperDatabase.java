@@ -9,9 +9,13 @@ public interface ScraperDatabase {
      *
      * @param url the hyperlink to be added
      * @param src the webpage from which the given hyperlink  was scraped
-     * @return whether the operation was successful
      */
-    boolean addLink(String url, String src);
+    void addLink(String url, String src);
+
+    /**
+     * Adds and associates all the given likes to the given source.
+     */
+    void addLinks(String src, List<String> urls);
 
     /**
      * Returns the map of all sources with the list of associated hyperlinks.

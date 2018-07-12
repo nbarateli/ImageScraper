@@ -4,10 +4,7 @@ import javax.json.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implements the ScrapperDatabase interface using JSON files.
@@ -25,24 +22,30 @@ public class JSONScraperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public boolean addLink(String url, String src) {
+    public void addLink(String url, String src) {
+        addLinks(src, Collections.singletonList(src));
+
+    }
+
+    @Override
+    public void addLinks(String src, List<String> urls) {
         JsonObject database;
         JsonObjectBuilder builder = addAll(Json.createObjectBuilder(), database = readDatabase(DB_FILE));
 
-        if (!database.containsKey(src))
-            builder.add(src, Json.createArrayBuilder().add(url).build());
-        else {
+        if (!database.containsKey(src)) {
+            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+            urls.forEach(arrayBuilder::add);
+            builder.add(src, arrayBuilder.build());
+        } else {
             JsonArrayBuilder arrayBuilder = addAll(Json.createArrayBuilder(), database.getJsonArray(src));
-            arrayBuilder.add(url);
+            urls.forEach(arrayBuilder::add);
             builder.add(src, arrayBuilder.build());
         }
         try (JsonWriter writer = Json.createWriter(new FileOutputStream(DB_FILE))) {
             writer.write(builder.build());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (FileNotFoundException ignored) {
 
-        return true;
+        }
     }
 
     @Override
