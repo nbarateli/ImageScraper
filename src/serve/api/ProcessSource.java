@@ -1,6 +1,6 @@
 package serve.api;
 
-import model.PageScraper;
+import model.ScrapingManager;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -19,10 +19,10 @@ import java.util.Collection;
 public class ProcessSource extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PageScraper scraper = (PageScraper) getServletContext().getAttribute("scraper");
+        ScrapingManager manager = (ScrapingManager) getServletContext().getAttribute("manager");
         String url = addProtocol(request.getParameter("url"));
 
-        Collection<String> urls = scraper.scrapePage(url);
+        Collection<String> urls = manager.scrapePage(url);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 

@@ -14,11 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PageScraper {
-    private final ScraperDatabase database;
-
-    public PageScraper(ScraperDatabase database) {
-        this.database = database;
-    }
 
     /**
      * Scrapes the given page, stores it in the database and returns the list
@@ -27,7 +22,7 @@ public class PageScraper {
      * @param src address of the page to scrape.
      * @return list of found hyperlinks
      */
-    public Collection<String> scrapePage(String src) {
+    public static Collection<String> scrapePage(String src, ScraperDatabase database) {
         Collection<String> hrefs = new HashSet<>();
         String protocol = "https";
         try {
@@ -51,14 +46,13 @@ public class PageScraper {
         return hrefs;
     }
 
-
-    private Set<String> processURLs(String src, Set<String> hrefs, String protocol) {
+    private static Set<String> processURLs(String src, Set<String> hrefs, String protocol) {
         Set<String> result = new HashSet<>();
         hrefs.forEach(el -> result.add(processURL(src, el, protocol)));
         return result;
     }
 
-    private String processURL(String src, String href, String protocol) {
+    private static String processURL(String src, String href, String protocol) {
         if (src.substring(0, 2).equalsIgnoreCase("//"))
             return protocol + href;
         try {
@@ -69,8 +63,12 @@ public class PageScraper {
         }
     }
 
-    private void addIfHas(Element element, String attr, Collection<String> hrefs) {
+    private static void addIfHas(Element element, String attr, Collection<String> hrefs) {
         if (element.hasAttr(attr)) hrefs.add(element.attr(attr));
+    }
+
+    private PageScraper() {
+
     }
 
 }

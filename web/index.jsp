@@ -1,5 +1,6 @@
 <%@ page import="control.ScraperDatabase" %>
 <%@ page import="misc.Utils" %>
+<%@ page import="model.ScrapingManager" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%--
@@ -11,7 +12,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  ScraperDatabase database = (ScraperDatabase) getServletConfig().getServletContext().getAttribute("database");
+  ScraperDatabase database = ((ScrapingManager) getServletConfig().getServletContext().getAttribute("manager")).getDatabase();
 %>
 <html>
 <head>

@@ -1,9 +1,6 @@
 package serve;
 
-import control.JSONScraperDatabase;
-import control.MySQLScraperDatabase;
-import control.ScraperDatabase;
-import model.PageScraper;
+import model.ScrapingManager;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -23,15 +20,9 @@ public class ContextCreation implements ServletContextListener,
     // ServletContextListener implementation
     // -------------------------------------------------------
     public void contextInitialized(ServletContextEvent sce) {
-        ScraperDatabase database;
-        try {
-            database = MySQLScraperDatabase.getInstance();
-        } catch (Exception e) {
-            database = JSONScraperDatabase.getInstance();
-        }
-        sce.getServletContext().setAttribute("scraper", new PageScraper(database));
-        sce.getServletContext().setAttribute("database", database);
-      /* This method is called when the servlet context is
+
+        sce.getServletContext().setAttribute("manager", ScrapingManager.getInstance());
+       /* This method is called when the servlet context is
          initialized(when the Web application is deployed). 
          You can initialize servlet context related data here.
       */

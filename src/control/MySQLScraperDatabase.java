@@ -26,7 +26,7 @@ public class MySQLScraperDatabase implements ScraperDatabase {
         return instance == null ? instance = new MySQLScraperDatabase() : instance;
     }
 
-    private final PooledConnection pool;
+    private PooledConnection pool;
     private final Map<String, String> dbInfo;
 
     private MySQLScraperDatabase() throws SQLException, FileNotFoundException {
@@ -41,6 +41,35 @@ public class MySQLScraperDatabase implements ScraperDatabase {
         } else
             pool = dataSource.getPooledConnection();
 
+    }
+
+    /**
+     * Returns whether a connection is available
+     */
+    public boolean checkConnection() {
+        try {
+            pool.getConnection();
+            return true;
+        } catch (SQLException e) {
+            MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
+            try {
+                try {
+                    pool.close();
+                } catch (Exception ignored) {
+
+                }
+                dataSource.setURL(dbInfo.get("server"));
+                dataSource.setUser(dbInfo.get("username"));
+                if (dbInfo.get("password").length() > 0) {
+                    dataSource.setPassword(dbInfo.get("password"));
+                    pool = dataSource.getPooledConnection(dbInfo.get("username"), dbInfo.get("password"));
+                } else
+                    pool = dataSource.getPooledConnection();
+            } catch (Exception ee) {
+                return false;
+            }
+            return true;
+        }
     }
 
     @Override
@@ -77,8 +106,8 @@ public class MySQLScraperDatabase implements ScraperDatabase {
             while (resultSet.next()) {
                 addToList(result, sources.get(resultSet.getInt("src")), resultSet.getString("href"));
             }
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }
