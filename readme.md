@@ -19,3 +19,12 @@ You should have a databaseinfo.json file in your working directory, formatted li
     "password": null,<br>
     "database": ""<br>
 }
+API:
+    
+    ProcessSource:
+    URL: POST /api/process
+    Usage: /api/process
+    parameters: url - the url to process
+    result data: { your_url: an array of fetched non-duplicate hyperlinks } 
+    
+    
