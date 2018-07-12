@@ -2,3 +2,5 @@
 **.iml
 Database.json
 DatabaseInfo.json
+node_modules/
+out/

@@ -1,0 +1,25 @@
+{
+  "name": "pagescraper",
+  "version": "1.0.0",
+  "description": "A simple web page scraper.\r <br>\r runs on <a href=\"https://tomcat.apache.org/download-70.cgi\">Tomcat 7</a> also comes with a built-in Java GUI.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nbarateli/PageScraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nbarateli/PageScraper/issues"
+  },
+  "homepage": "https://github.com/nbarateli/PageScraper#readme",
+  "dependencies": {
+    "less": "^3.7.1"
+  }
+}
