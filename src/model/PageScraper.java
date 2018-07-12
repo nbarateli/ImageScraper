@@ -6,7 +6,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,14 +35,15 @@ public class PageScraper {
                 addIfHas(element, "href", hrefs);
                 addIfHas(element, "src", hrefs);
             }
-        } catch (IOException ignored) {
+        } catch (Exception ignored) {
 
         }
         processURLs(src, hrefs);
         database.addLinks(src, hrefs);
-        System.out.println(hrefs);
+
         return hrefs;
     }
+
 
     private void processURLs(String src, List<String> hrefs) {
         for (int i = 0; i < hrefs.size(); i++) {

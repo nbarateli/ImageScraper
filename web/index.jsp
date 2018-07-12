@@ -1,10 +1,8 @@
-<%@ page import="control.JSONScraperDatabase" %>
-<%@ page import="control.MySQLScraperDatabase" %>
 <%@ page import="control.ScraperDatabase" %>
 <%@ page import="misc.Utils" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %><%--
+<%@ page import="java.util.Map" %>
+<%--
   Created by IntelliJ IDEA.
   User: Niko
   Date: 11.07.2018
@@ -13,13 +11,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  ScraperDatabase database;
-  try {
-    database = MySQLScraperDatabase.getInstance();
-//    throw new SQLException("");
-  } catch (SQLException e) {
-    database = JSONScraperDatabase.getInstance();
-  }
+  ScraperDatabase database = (ScraperDatabase) getServletConfig().getServletContext().getAttribute("database");
 %>
 <html>
 <head>
@@ -29,8 +21,8 @@
 <body>
 <div id="header">Page Scraper</div>
 <div id="content">
-  <form target="" id="url-form">
-    <input placeholder="URL" autocomplete="off">
+  <form target="/api/process" id="url-form">
+    <input placeholder="URL" name="url" autocomplete="off">
     <button type="submit">Scrape</button>
   </form>
   <div>
