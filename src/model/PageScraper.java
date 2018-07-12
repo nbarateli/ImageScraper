@@ -2,6 +2,7 @@ package model;
 
 import control.ScraperDatabase;
 import org.jsoup.Connection;
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -27,31 +28,37 @@ public class PageScraper {
      */
     public List<String> scrapePage(String src) {
         List<String> hrefs = new ArrayList<>();
+        String protocol = "https";
         try {
             Connection connection = Jsoup.connect(src).followRedirects(true);
-            src = connection.execute().url().toString();
+            Response response = connection.execute();
+            src = response.url().toString();
+            protocol = response.url().getProtocol();
             Elements elements = connection.get().getAllElements();
             for (Element element : elements) {
                 addIfHas(element, "href", hrefs);
                 addIfHas(element, "src", hrefs);
             }
+
         } catch (Exception ignored) {
 
         }
-        processURLs(src, hrefs);
+        processURLs(src, hrefs, protocol);
         database.addLinks(src, hrefs);
 
         return hrefs;
     }
 
 
-    private void processURLs(String src, List<String> hrefs) {
+    private void processURLs(String src, List<String> hrefs, String protocol) {
         for (int i = 0; i < hrefs.size(); i++) {
-            hrefs.set(i, processURL(src, hrefs.get(i)));
+            hrefs.set(i, processURL(src, hrefs.get(i), protocol));
         }
     }
 
-    private String processURL(String src, String href) {
+    private String processURL(String src, String href, String protocol) {
+        if (src.substring(0, 2).equalsIgnoreCase("//"))
+            return protocol + href;
         try {
             new URL(href).getProtocol();
             return href;

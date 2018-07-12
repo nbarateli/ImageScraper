@@ -50,11 +50,11 @@
             %>
       <tr>
         <td>
-          <a href="<%=el%>"><span class="text-overflow"><%=Utils.escapeHTML(el)%></span> </a>
+          <a target="_blank" href="<%=el%>"><span class="text-overflow"><%=Utils.escapeHTML(el)%></span> </a>
 
         </td>
-        <td><a href="<%=k%>"><span class="text-overflow"><%=Utils.escapeHTML(k)%></span>
-        </a>
+        <td><a target="_blank" href="<%=k%>"><span class="text-overflow"><%=Utils.escapeHTML(k)%></span></a>
+        </td>
       </tr>
       <%
           }
@@ -67,6 +67,15 @@
 
 </div>
 
+<script id="template" type="x-tmpl-mustache">
+  <td>
+    <a target="_blank" href="{{&href}}"><span class="text-overflow">{{href}}</span> </a>
+
+  </td>
+  <td><a target="_blank" href="{{&src}}"><span class="text-overflow">{{src}}</span></a>
+  </td>
+</script>
 </body>
+<script src="vendor/mustache.min.js"></script>
 <script src="script/main.js"></script>
 </html>
