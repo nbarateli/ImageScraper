@@ -11,12 +11,12 @@ public class JSONScrapperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public boolean addImage(String url, String src) {
+    public boolean addLink(String url, String src) {
         return false;
     }
 
     @Override
-    public Map<String, List<String>> getAllImages() {
+    public Map<String, List<String>> getAllLinks() {
         return null;
     }
 }

@@ -7,12 +7,14 @@ public interface ScraperDatabase {
     /**
      * Adds the image to the database.
      *
+     * @param url the hyperlink to be added
+     * @param src the webpage from which the given hyperlink  was scraped
      * @return whether the operation was successful
      */
-    boolean addImage(String url, String src);
+    boolean addLink(String url, String src);
 
     /**
-     * Returns the list of all previously added images
+     * Returns the map of all sources with the list of associated hyperlinks.
      */
-    Map<String, List<String>> getAllImages();
+    Map<String, List<String>> getAllLinks();
 }
