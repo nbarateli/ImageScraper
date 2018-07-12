@@ -11,7 +11,7 @@ used libraries:
     <li><a href="https://docs.oracle.com/javaee/7/api/javax/json/package-summary.html">javax.json</a>
 </ul>
 
-You should have a databaseinfo.json file in your working directory, formatted like this:
+You should have <b>databaseinfo.json</b> file in your deployment directory, formatted like this:
 
 {<br>
     "server": "",<br>
