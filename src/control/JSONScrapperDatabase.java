@@ -1,6 +1,7 @@
 package control;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implements the ScrapperDatabase interface using JSON files.
@@ -15,7 +16,7 @@ public class JSONScrapperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public List<String> getAllImages() {
+    public Map<String, List<String>> getAllImages() {
         return null;
     }
 }

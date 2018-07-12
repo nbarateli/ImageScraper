@@ -1,6 +1,7 @@
 package control;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ScraperDatabase {
     /**
@@ -13,5 +14,5 @@ public interface ScraperDatabase {
     /**
      * Returns the list of all previously added images
      */
-    List<String> getAllImages();
+    Map<String, List<String>> getAllImages();
 }
