@@ -1,5 +1,6 @@
 package control;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public interface ScraperDatabase {
     /**
      * Adds and associates all the given likes to the given source.
      */
-    void addLinks(String src, List<String> urls);
+    void addLinks(String src, Collection<String> urls);
 
     /**
      * Returns the map of all sources with the list of associated hyperlinks.

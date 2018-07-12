@@ -28,7 +28,7 @@ public class JSONScraperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public void addLinks(String src, List<String> urls) {
+    public void addLinks(String src, Collection<String> urls) {
         JsonObject database;
         JsonObjectBuilder builder = addAll(Json.createObjectBuilder(), database = readDatabase(DB_FILE));
 

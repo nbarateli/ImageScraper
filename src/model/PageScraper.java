@@ -9,8 +9,9 @@ import org.jsoup.select.Elements;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PageScraper {
     private final ScraperDatabase database;
@@ -26,8 +27,8 @@ public class PageScraper {
      * @param src address of the page to scrape.
      * @return list of found hyperlinks
      */
-    public List<String> scrapePage(String src) {
-        List<String> hrefs = new ArrayList<>();
+    public Collection<String> scrapePage(String src) {
+        Collection<String> hrefs = new HashSet<>();
         String protocol = "https";
         try {
             Connection connection = Jsoup.connect(src).followRedirects(true);
@@ -43,17 +44,18 @@ public class PageScraper {
         } catch (Exception ignored) {
 
         }
-        processURLs(src, hrefs, protocol);
+        hrefs = processURLs(src, (Set<String>) hrefs, protocol);
+
         database.addLinks(src, hrefs);
 
         return hrefs;
     }
 
 
-    private void processURLs(String src, List<String> hrefs, String protocol) {
-        for (int i = 0; i < hrefs.size(); i++) {
-            hrefs.set(i, processURL(src, hrefs.get(i), protocol));
-        }
+    private Set<String> processURLs(String src, Set<String> hrefs, String protocol) {
+        Set<String> result = new HashSet<>();
+        hrefs.forEach(el -> result.add(processURL(src, el, protocol)));
+        return result;
     }
 
     private String processURL(String src, String href, String protocol) {
@@ -67,7 +69,7 @@ public class PageScraper {
         }
     }
 
-    private void addIfHas(Element element, String attr, List<String> hrefs) {
+    private void addIfHas(Element element, String attr, Collection<String> hrefs) {
         if (element.hasAttr(attr)) hrefs.add(element.attr(attr));
     }
 

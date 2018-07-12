@@ -50,7 +50,7 @@ public class MySQLScraperDatabase implements ScraperDatabase {
     }
 
     @Override
-    public void addLinks(String src, List<String> urls) {
+    public void addLinks(String src, Collection<String> urls) {
         try {
             addSource(src);
             int id = getSourceId(src);
@@ -58,8 +58,9 @@ public class MySQLScraperDatabase implements ScraperDatabase {
             urls.forEach(url -> builder.append("(?, ?),"));
             builder.setCharAt(builder.length() - 1, ' ');
             Object[] params = new Object[urls.size() * 2];
+            Iterator<String> iterator = urls.iterator();
             for (int i = 0; i < params.length; i += 2) {
-                params[i] = urls.get(i / 2);
+                params[i] = iterator.next();
                 params[i + 1] = id;
             }
             executeUpdate(builder.toString(), params);

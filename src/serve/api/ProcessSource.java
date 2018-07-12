@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+import java.util.Collection;
 
 @WebServlet(name = "ProcessSource", urlPatterns = {"/api/process"})
 public class ProcessSource extends HttpServlet {
@@ -26,7 +26,7 @@ public class ProcessSource extends HttpServlet {
         PageScraper scraper = (PageScraper) getServletContext().getAttribute("scraper");
         String url = addProtocol(request.getParameter("url"));
 
-        List<String> urls = scraper.scrapePage(url);
+        Collection<String> urls = scraper.scrapePage(url);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
