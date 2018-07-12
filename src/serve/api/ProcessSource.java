@@ -17,10 +17,6 @@ import java.util.Collection;
 
 @WebServlet(name = "ProcessSource", urlPatterns = {"/api/process"})
 public class ProcessSource extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PageScraper scraper = (PageScraper) getServletContext().getAttribute("scraper");

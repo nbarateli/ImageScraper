@@ -21,7 +21,7 @@
 <body>
 <div id="header">Page Scraper</div>
 <div id="content">
-  <form target="/api/process" id="url-form">
+  <form target="/api/process" id="url-form" method="post">
     <input placeholder="URL" name="url" autocomplete="off">
     <button type="submit">Scrape</button>
   </form>
@@ -44,10 +44,10 @@
       <tbody class="scrollContent" id="links">
 
       <%
-          Map<String, List<String>> links = database.getAllLinks();
-          for (String k:links.keySet()){
-            for(String el:links.get(k)){
-            %>
+        Map<String, List<String>> links = database.getAllLinks();
+        for (String k : links.keySet()) {
+          for (String el : links.get(k)) {
+      %>
       <tr>
         <td>
           <a target="_blank" href="<%=el%>"><span class="text-overflow"><%=Utils.escapeHTML(el)%></span> </a>
